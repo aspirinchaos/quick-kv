@@ -1,0 +1,10 @@
+{
+  "validated-method": {
+    "git": "https://bitbucket.org/aspirinchaos/validated-method.git",
+    "branch": "master"
+  },
+  "core": {
+    "git": "https://bitbucket.org/aspirinchaos/core.git",
+    "branch": "master"
+  }
+}

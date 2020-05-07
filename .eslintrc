@@ -1,0 +1,89 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": "2017",
+    "allowImportExportEverywhere": true
+  },
+  "plugins": [
+    "meteor",
+    "react"
+  ],
+  "extends": [
+    "airbnb",
+    "plugin:react/recommended",
+    "plugin:meteor/recommended"
+  ],
+  "settings": {
+    "import/resolver": {
+      "meteor": {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ],
+        "moduleDirectory": [
+          "node_modules"
+        ]
+      }
+    }
+  },
+  "rules": {
+    "react/jsx-props-no-spreading": 0,
+    "react/static-property-placement": 0,
+    "react/require-default-props": 0,
+    "react/forbid-prop-types": 0,
+    "react/destructuring-assignment": 0,
+    "react/jsx-filename-extension": 0,
+    "react/jsx-one-expression-per-line": 0,
+    "react/jsx-curly-brace-presence": [2, { "props": "always", "children": "never" }    ],
+    "object-curly-newline": [
+      "error",
+      {
+        "ObjectExpression": {
+          "multiline": true,
+          "minProperties": 4,
+          "consistent": true
+        },
+        "ObjectPattern": {
+          "multiline": true
+        }
+      }
+    ],
+    "consistent-return": 0,
+    "no-use-before-define": 0,
+    "jsx-a11y/no-marquee": 0,
+    "no-underscore-dangle": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-absolute-path": 0,
+    "import/first": 0,
+    "import/no-cycle": 0,
+    "object-shorthand": [
+      "error",
+      "always"
+    ],
+    "prefer-arrow-callback": 0,
+    "no-plusplus": 0,
+    "no-param-reassign": 0,
+    "func-names": [
+      "error",
+      "never"
+    ],
+    "camelcase": 0,
+    "import/extensions": [
+      "off",
+      "never"
+    ]
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "meteor": true,
+    "es6": true
+  },
+  "globals": {
+    "Cordova": true,
+    "Camera": true,
+    "cordova": true,
+    "Roles": true,
+    "google": true
+  }
+}
