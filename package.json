@@ -2,11 +2,21 @@
   "name": "quick-system",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "setup": "meteor npm i && npx mgp"
   },
   "dependencies": {
     "@babel/runtime": "^7.8.3",
-    "meteor-node-stubs": "^1.0.0"
+    "bcrypt": "^4.0.1",
+    "bootstrap": "^4.4.1",
+    "meteor-node-stubs": "^1.0.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-mounter": "^1.2.0",
+    "reactstrap": "^8.4.1",
+    "simpl-schema": "^1.7.1",
+    "styled-components": "^5.1.0"
   },
   "devDependencies": {
     "@meteorjs/eslint-config-meteor": "^1.0.5",
