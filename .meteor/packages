@@ -24,3 +24,6 @@ reywood:publish-composite
 ostrio:files
 ostrio:meteor-root
 react-meteor-data
+core
+validated-method
+aldeed:collection2@3.0.6
