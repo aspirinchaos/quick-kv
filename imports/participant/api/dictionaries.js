@@ -3,12 +3,12 @@ import { GROUP_KEYS } from './constants';
 
 export const GROUPS = new Dictionary({
   [GROUP_KEYS.normal]: {
-    title: 'Normal',
+    title: 'Group 1',
   },
   [GROUP_KEYS.semi]: {
-    title: 'Semi normal',
+    title: 'Group 2',
   },
   [GROUP_KEYS.weak]: {
-    title: 'Weak',
+    title: 'Group 3',
   },
 });
