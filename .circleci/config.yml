@@ -1,13 +1,59 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
-# Use a package of configuration called an orb.
-orbs:
-  # Declare a dependency on the welcome-orb
-  welcome: circleci/welcome-orb@0.4.1
-# Orchestrate or schedule a set of jobs
+jobs:
+  deploy_build:
+    docker:
+      - image: circleci/node:8.11.4
+
+    steps:
+      - checkout
+
+      - add_ssh_keys:
+          fingerprints:
+            - "f9:f3:e5:0b:5a:71:69:3a:63:5b:35:b1:4c:5e:24:59"
+
+      - run:
+          name: Install Meteor
+          command: "curl https://install.meteor.com | /bin/sh"
+
+      - restore_cache:
+          key: dependency-cache-{{ checksum "./package.json" }}
+
+      - run:
+          name: Install packages
+          command: |
+            npm run setup
+
+      - save_cache:
+          key: dependency-cache-{{ checksum "./package.json" }}
+          paths:
+            - ./node_modules
+
+      - run:
+          name: Create Settings File
+          command: echo $METEOR_SETTINGS > .deploy/settings.json
+
+      - run:
+          name: Use keyscan
+          command: |
+            ssh-keyscan $HOST >> ~/.ssh/known_hosts
+
+      - run:
+          name: Mup setup
+          command: |
+            cd ./.deploy
+            npx mup setup
+
+      - run:
+          name: Mup deploy
+          command: |
+            cd ./.deploy
+            npx mup deploy
+
 workflows:
-  # Name the workflow "welcome"
-  welcome:
-    # Run the welcome/run job in its own container
+  version: 2
+  Integration_and_delivery:
     jobs:
-      - welcome/run
+      - deploy_build:
+          filters:
+            branches:
+              only: master
