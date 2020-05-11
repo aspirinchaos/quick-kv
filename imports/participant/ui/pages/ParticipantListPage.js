@@ -42,6 +42,9 @@ const ParticipantListPage = () => {
                   <th>Number</th>
                   <th>Name</th>
                   <th>Group</th>
+                  <th>Country</th>
+                  <th>City</th>
+                  <th />
                 </tr>
               </thead>
               <tbody>
@@ -49,6 +52,7 @@ const ParticipantListPage = () => {
                   <ParticipantTableItem
                     key={mg._id}
                     participant={mg}
+                    edit={() => setParticipant(mg)}
                   />
                 ))}
               </tbody>

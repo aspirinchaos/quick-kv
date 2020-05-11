@@ -28,12 +28,21 @@ const ParticipantModal = ({ participant, clear }) => {
   };
 
   const onSubmit = (data) => {
-    Participants.methods.insert(data).then(() => {
-      Toastr.success('Participant was added');
-      close();
-    }).catch((error) => {
-      Toastr.error(error.reason);
-    });
+    if (participant._id) {
+      Participants.methods.update({ _id: participant._id, data }).then(() => {
+        Toastr.success('Participant was updated');
+        close();
+      }).catch((error) => {
+        Toastr.error(error.reason);
+      });
+    } else {
+      Participants.methods.insert(data).then(() => {
+        Toastr.success('Participant was added');
+        close();
+      }).catch((error) => {
+        Toastr.error(error.reason);
+      });
+    }
   };
 
   if (!participant) {
@@ -42,7 +51,7 @@ const ParticipantModal = ({ participant, clear }) => {
 
   return (
     <Modal size={'lg'} isOpen={isOpen} toggle={close}>
-      <ModalHeader toggle={close}>Adding participant</ModalHeader>
+      <ModalHeader toggle={close}>{participant._id ? 'Editing' : 'Adding'} participant</ModalHeader>
       <ModalBody>
         <ParticipantForm
           formRef={form}
@@ -51,7 +60,7 @@ const ParticipantModal = ({ participant, clear }) => {
         />
       </ModalBody>
       <ModalFooter>
-        <Button color={'primary'} onClick={save}>Add</Button>
+        <Button color={'primary'} onClick={save}>{participant._id ? 'Update' : 'Add'}</Button>
         <Button color={'secondary'} onClick={close}>Cancel</Button>
       </ModalFooter>
     </Modal>

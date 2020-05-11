@@ -17,6 +17,16 @@ const ParticipantSchema = new SimpleSchema({
     label: 'Group',
     allowedValues: GROUPS.keys(),
   },
+  country: {
+    type: String,
+    label: 'Country',
+    optional: true,
+  },
+  city: {
+    type: String,
+    label: 'City',
+    optional: true,
+  },
 });
 
 ParticipantSchema.extend(CoreSchema);

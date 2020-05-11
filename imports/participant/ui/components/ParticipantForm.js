@@ -7,12 +7,14 @@ import { Participants, GROUPS } from '/imports/participant';
 import { InputRow } from '/imports/core/ui/atoms';
 
 const ParticipantForm = ({ participant, formRef, onSubmit }) => {
-  const [state, setState] = useState({});
+  const [state, setState] = useState(participant);
 
   const {
     name = '',
     number = '',
     group = '',
+    country = '',
+    city = '',
   } = state;
 
   const onChange = (newState) => {
@@ -51,6 +53,22 @@ const ParticipantForm = ({ participant, formRef, onSubmit }) => {
         onChange={onChange}
         empty={'Select group'}
         options={GROUPS.asArray()}
+      />
+      <InputRow
+        label={Participants.schema.label('country')}
+        type={'text'}
+        id={'country'}
+        name={'country'}
+        value={country}
+        onChange={onChange}
+      />
+      <InputRow
+        label={Participants.schema.label('city')}
+        type={'text'}
+        id={'city'}
+        name={'city'}
+        value={city}
+        onChange={onChange}
       />
     </Form>
   );
