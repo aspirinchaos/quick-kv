@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 
-import { StageParticipantListRoute } from '/imports/participant/api/routes';
+import { StageParticipantListRoute, StageResultRoute } from '/imports/participant/api/routes';
 
 const StageTableItem = ({ stage, activate }) => (
   <tr>
@@ -28,6 +28,13 @@ const StageTableItem = ({ stage, activate }) => (
         color={'info'}
       >
         Participants
+      </Button>
+      <Button
+        onClick={() => StageResultRoute.go({ _id: stage._id })}
+        className={'ml-2'}
+        color={'success'}
+      >
+        Results
       </Button>
     </td>
   </tr>

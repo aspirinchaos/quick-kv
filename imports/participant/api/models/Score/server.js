@@ -1,2 +1,1 @@
-import './publications';
 import './methods';

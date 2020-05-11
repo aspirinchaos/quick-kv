@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Button, Table, Card, Row, Col } from 'reactstrap';
 
-import { Participants, Stages, Scores } from '/imports/participant';
+import { Stages } from '/imports/participant';
 import { useRouter } from '/imports/core';
 
 import { Page, LoadingHolder } from '/imports/core/ui/atoms';
@@ -14,15 +14,11 @@ const StageParticipantListPage = () => {
   const _id = useRouter('_id');
 
   const loading = useTracker(() => {
-    const subs = [
-      Participants.publications.all.subscribe(),
-      Stages.publications.all.subscribe(),
-      Scores.publications.stage.subscribe(_id),
-    ];
-    return subs.some((s) => !s.ready());
-  }, []);
+    const handle = Stages.publications.one.subscribe(_id);
+    return !handle.ready();
+  }, [_id]);
 
-  const stage = useTracker(() => Stages.findOne(_id), []);
+  const stage = useTracker(() => Stages.findOne(_id), [_id]);
   const { participants = [] } = stage || {};
 
   const [participant, setParticipant] = useState(null);

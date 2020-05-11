@@ -1,6 +1,7 @@
 import { AuthRoute } from '/imports/core/api/route';
 
 import StageListPage from '../ui/pages/StageListPage';
+import StageResultPage from '../ui/pages/StageResultPage';
 import StageParticipantListPage from '../ui/pages/StageParticipantListPage';
 import ParticipantListPage from '../ui/pages/ParticipantListPage';
 
@@ -9,6 +10,13 @@ const StageListRoute = new AuthRoute({
   path: '/stages',
   Page: StageListPage,
   title: 'QKVS - Stages',
+});
+
+const StageResultRoute = new AuthRoute({
+  name: 'stage.result',
+  path: '/stages/:_id/result',
+  Page: StageResultPage,
+  title: 'QKVS - Stage Result',
 });
 
 const StageParticipantListRoute = new AuthRoute({
@@ -27,6 +35,7 @@ const ParticipantListRoute = new AuthRoute({
 
 export {
   StageListRoute,
-  ParticipantListRoute,
+  StageResultRoute,
   StageParticipantListRoute,
+  ParticipantListRoute,
 };
