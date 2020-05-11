@@ -17,31 +17,33 @@ const StageResultPage = () => {
     return !handle.ready();
   }, [_id]);
 
+  const allVotes = useTracker(() => Scores.find({ _idStage: _id }).fetch(), [_id]);
   const stage = useTracker(() => Stages.findOne(_id), [_id]);
-
-  const { participants = [] } = stage || {};
 
   const [video, setVideo] = useState(null);
 
+  const { participants = [] } = stage || {};
   const groups = {
     [GROUP_KEYS.normal]: [],
     [GROUP_KEYS.semi]: [],
     [GROUP_KEYS.weak]: [],
   };
-  const allVotes = useTracker(() => Scores.find({ _idStage: _id }).fetch(), [_id]);
 
-  participants.forEach((par) => {
-    const participant = Participants.findOne(par._idParticipant);
-    const votes = allVotes.filter((v) => v._idParticipant === par._idParticipant);
-    const score = votes.reduce((sum, vote) => sum + vote.value, 0) / votes.length;
-    par.participant = participant;
-    par.score = score;
-    groups[participant.group].push(par);
-  });
+  if (!loading) {
+    participants.forEach((par) => {
+      const participant = Participants.findOne(par._idParticipant);
+      const votes = allVotes.filter((v) => v._idParticipant === par._idParticipant);
+      const score = votes.reduce((sum, vote) => sum + vote.value, 0) / votes.length;
+      par.participant = participant;
+      par.score = score;
+      groups[participant.group].push(par);
+    });
 
-  Object.keys(groups).forEach((key) => {
-    groups[key] = groups[key].sort((a, b) => b.score - a.score);
-  });
+    Object.keys(groups).forEach((key) => {
+      groups[key] = groups[key].sort((a, b) => b.score - a.score);
+    });
+  }
+
 
   return (
     <Page>
