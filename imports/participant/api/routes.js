@@ -17,6 +17,7 @@ const StageResultRoute = new Route({
   path: '/stages/:_id/result',
   Page: StageResultPage,
   title: 'QKVS - Stage Result',
+  public: true,
 });
 
 const StageParticipantListRoute = new AuthRoute({

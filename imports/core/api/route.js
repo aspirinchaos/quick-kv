@@ -19,10 +19,11 @@ import('/imports/core/ui/layouts/MainLayout').then((layout) => {
 
 
 class Route {
-  constructor({ name, title, ...rest }) {
+  constructor({ name, title, public: isPublic = false, ...rest }) {
     check(name, String);
     this.name = name;
     this.title = title;
+    this.public = isPublic;
 
     this._define(rest);
   }
@@ -51,7 +52,7 @@ class Route {
   };
 
   checkAuth(context, redirect) {
-    if (Meteor.userId()) {
+    if (!this.public && Meteor.userId()) {
       redirect('home');
     }
   }
@@ -66,7 +67,7 @@ class Route {
           content: (<Page />),
         });
       },
-      triggersEnter: [this.checkAuth, this.setTitle],
+      triggersEnter: [this.checkAuth.bind(this), this.setTitle],
       triggersExit: [this.unsetTitle],
       ...rest,
     });
@@ -95,7 +96,7 @@ class AuthRoute extends Route {
           content: (<Page />),
         });
       },
-      triggersEnter: [this.checkAuth, this.setTitle],
+      triggersEnter: [this.checkAuth.bind(this), this.setTitle],
       triggersExit: [this.unsetTitle],
       ...rest,
     });
