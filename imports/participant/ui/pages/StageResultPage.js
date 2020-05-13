@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
-import { CardHeader, CardBody, Table, Card, Row, Col } from 'reactstrap';
+import { CardHeader, Table, Card, Row, Col } from 'reactstrap';
 
 import { GROUP_KEYS, GROUPS, Participants, Scores, Stages } from '/imports/participant';
 import { useRouter } from '/imports/core';
