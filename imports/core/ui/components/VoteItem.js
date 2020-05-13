@@ -14,7 +14,7 @@ const VoteItem = ({ participant: { _idParticipant, _idFile }, stage }) => {
 
   const [code, setCode] = useState('');
 
-  const result = `${code[0] || ''}.${code[1] || ''}`;
+  const result = isVoted ? isVoted.value : `${code[0] || ''}.${code[1] || ''}`;
 
   const vote = () => {
     const value = Number(result);
