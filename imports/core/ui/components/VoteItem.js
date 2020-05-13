@@ -34,7 +34,7 @@ const VoteItem = ({ participant: { _idParticipant, _idFile }, stage }) => {
   return (
     <Card className={'m-4'}>
       <CardHeader>Participant {part.number}</CardHeader>
-      <CardBody>
+      <CardBody className={'justify-content-center d-flex'}>
         <Video src={file.link()} />
       </CardBody>
       <CardFooter>
