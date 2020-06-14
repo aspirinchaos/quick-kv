@@ -5,6 +5,8 @@ import {
   faUpload,
   faFile,
   faPencilAlt,
+  faFolder,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import {} from '@fortawesome/free-regular-svg-icons';
 
@@ -13,6 +15,8 @@ library.add(
   faUpload,
   faFile,
   faPencilAlt,
+  faFolder,
+  faTrash,
 );
 
 export default FA;

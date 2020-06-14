@@ -3,7 +3,8 @@ import { check } from 'meteor/check';
 import { Error, AdminMethoder, JudgeMethoder } from '/imports/core';
 
 import Stages from './collection';
-import StageFiles from '../File';
+import Files from '../File';
+import Scores from '../Score';
 
 Stages.methods.insert = AdminMethoder({
   name: `${Stages._name}.insert`,
@@ -41,6 +42,23 @@ Stages.methods.addParticipant = AdminMethoder({
   },
 });
 
+Stages.methods.removeParticipant = AdminMethoder({
+  name: `${Stages._name}.remove-participant`,
+  validate({ _id, _idParticipant }) {
+    check(_id, String);
+    check(_idParticipant, String);
+  },
+  run({ _id, _idParticipant }) {
+    if (Meteor.isServer) {
+      const stage = Stages.findOne(_id);
+      const part = stage.participants.find((x) => x._idParticipant === _idParticipant);
+      Files.remove(part._idFile);
+      Scores.remove({ _idStage: _id, _idParticipant });
+      return Stages.update(_id, { $pull: { participants: part } });
+    }
+  },
+});
+
 Stages.methods.voting = JudgeMethoder({
   name: `${Stages._name}.voting`,
   validate({ _id, _idParticipant }) {
@@ -48,8 +66,6 @@ Stages.methods.voting = JudgeMethoder({
     check(_idParticipant, String);
   },
   run({ _id, _idParticipant }) {
-
-
     return Stages.update(_id, { $push: { participants: { _idFile, _idParticipant } } });
   },
 });
@@ -62,22 +78,5 @@ Stages.methods.update = AdminMethoder({
   },
   run({ _id, data: $set }) {
     return Stages.update(_id, { $set });
-  },
-});
-
-Stages.methods.remove = AdminMethoder({
-  name: `${Stages._name}.remove`,
-  validate(_id) {
-    check(_id, String);
-    if (Meteor.isServer && !Stages.exists(_id)) {
-      throw new Error();
-    }
-  },
-  run(_id) {
-    if (Meteor.isServer) {
-      const doc = Stages.findOne(_id);
-      StageFiles.remove(doc.file_id);
-      return Stages.remove(_id);
-    }
   },
 });

@@ -3,12 +3,14 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Button, Table, Card, Row, Col } from 'reactstrap';
 
 import { Participants, Stages } from '/imports/participant';
+import { Users } from '/imports/user';
 import { useRouter } from '/imports/core';
 
-import { Page, LoadingHolder } from '/imports/core/ui/atoms';
+import { Page, LoadingHolder, BsSwal } from '/imports/core/ui/atoms';
 import StageParticipantTableItem from '../components/StageParticipantTableItem';
 import StageParticipantModal from '../components/StageParticipantModal';
 import VideoModal from '../components/VideoModal';
+import JudgesModal from '../components/JudgesModal';
 
 const StageParticipantListPage = () => {
   const _id = useRouter('_id');
@@ -16,6 +18,7 @@ const StageParticipantListPage = () => {
   const loading = useTracker(() => {
     const subs = [
       Stages.publications.one.subscribe(_id),
+      Users.publications.judges.subscribe(),
       Participants.publications.all.subscribe(),
     ];
     return subs.some((s) => !s.ready());
@@ -26,6 +29,25 @@ const StageParticipantListPage = () => {
 
   const [participant, setParticipant] = useState(null);
   const [video, setVideo] = useState(null);
+  const [judges, setJudges] = useState(null);
+
+  const remove = ({ _idParticipant }) => BsSwal.fire({
+    title: 'Remove the participant from stage?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, remove',
+    cancelButtonText: 'Cancel',
+  }).then((result) => {
+    if (result.value) {
+      Stages.methods.removeParticipant({ _id, _idParticipant }).then(() => BsSwal.fire({
+        title: 'The participant was removed',
+        icon: 'success',
+      })).catch((e) => BsSwal.fire({
+        title: e.message,
+        icon: 'error',
+      }));
+    }
+  });
 
   return (
     <Page>
@@ -53,6 +75,7 @@ const StageParticipantListPage = () => {
                   <th>Video</th>
                   <th>Votes</th>
                   <th>Result</th>
+                  <th />
                 </tr>
               </thead>
               <tbody>
@@ -62,6 +85,8 @@ const StageParticipantListPage = () => {
                     _idStage={_id}
                     participant={mg}
                     view={() => setVideo(mg)}
+                    viewJudges={(jds) => setJudges(jds)}
+                    remove={() => remove(mg)}
                   />
                 ))}
               </tbody>
@@ -77,6 +102,7 @@ const StageParticipantListPage = () => {
         clear={() => setParticipant(null)}
       />
       <VideoModal video={video} clear={() => setVideo(null)} />
+      <JudgesModal judges={judges} clear={() => setJudges(null)} />
     </Page>
   );
 };

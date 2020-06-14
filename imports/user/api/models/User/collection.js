@@ -84,6 +84,9 @@ Object.assign(Users, {
   getJudges() {
     return Users.find({ role: ROLE_KEYS.judge }).fetch();
   },
+  getJudge(_id) {
+    return Users.findOne({ _id, role: ROLE_KEYS.judge });
+  },
 });
 
 Users.attachSchema(Schema);
